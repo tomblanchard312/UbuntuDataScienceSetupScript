@@ -7,7 +7,7 @@ This repository contains scripts to set up a development environment for Ubuntu 
 
 1. Clone this repository:
    ```bash
-   git clone [https://github.com/tomblanchard312/DSWorkloadInstallScripts.git](https://github.com/tomblanchard312/DSWorkloadInstallScripts.git)
+   git clone https://github.com/tomblanchard312/DSWorkloadInstallScripts.git
 	 cd DSWorkloadInstallScripts
    ```
 2. Make the script executable
@@ -21,7 +21,7 @@ This repository contains scripts to set up a development environment for Ubuntu 
 ### Windows Subsystem for Linux (WSL)
 1. Clone this repository:
    ```bash
-   git clone [https://github.com/tomblanchard312/DSWorkloadInstallScripts.git](https://github.com/tomblanchard312/DSWorkloadInstallScripts.git)
+   git clone https://github.com/tomblanchard312/DSWorkloadInstallScripts.git
 	 cd repository
    ```
 2. Make the script executable
