@@ -14,11 +14,12 @@ This repository contains scripts to set up a development environment for Ubuntu 
    ```bash
    chmod +x ubuntu_post_install.sh
    ```
-  2. a) remove dos characters from file, if necessary.
-	``` bash
-	 sed -i -e 's/\r$//' ubuntu_post_install.sh
-	 sed -i -e 's/^M$//'  ubuntu_post_install.sh
-	```
+  	2. a) remove dos characters from file, if necessary.
+		``` bash
+		 sed -i -e 's/\r$//' ubuntu_post_install.sh
+		 sed -i -e 's/^M$//'  ubuntu_post_install.sh
+		```
+
 3. Run the script to set up the development environment:
     ```bash
     ./ubuntu_post_install.sh
@@ -33,11 +34,11 @@ This repository contains scripts to set up a development environment for Ubuntu 
     ```bash
     chmod +x wsl_post_install.sh
     ```
-  2. a) remove dos characters from file, if necessary.
-	``` bash
-	 sed -i -e 's/\r$//' ubuntu_post_install.sh
-	 sed -i -e 's/^M$//'  ubuntu_post_install.sh
-	```
+  	2. a) remove dos characters from file, if necessary.
+		``` bash
+		 sed -i -e 's/\r$//' ubuntu_post_install.sh
+		 sed -i -e 's/^M$//'  ubuntu_post_install.sh
+		```
 4. Run the script to set up the development environment
     ```bash
     ./wsl_post_install.sh
