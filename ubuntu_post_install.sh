@@ -29,7 +29,8 @@ sudo apt install -y ./azuredatastudio-linux.deb
 rm azuredatastudio-linux.deb
 
 # Install Anaconda
-wget -q https://repo.anaconda.com/archive/Anaconda3-2021.11-Linux-x86_64.sh -O anaconda-installer.sh
+sudo apt-get install libgl1-mesa-glx libegl1-mesa libxrandr2 libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
+wget -P /tmp https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh -O anaconda-installer.sh
 bash anaconda-installer.sh -b -p $HOME/anaconda3
 rm anaconda-installer.sh
 
@@ -37,6 +38,7 @@ rm anaconda-installer.sh
 eval "$($HOME/anaconda3/bin/conda shell.bash hook)"
 conda init bash
 source ~/.bashrc
+#may have to restart and continue from here
 
 # Install Jupyter Notebook
 conda install -y jupyter
@@ -66,4 +68,9 @@ sudo apt-key add /var/cuda-repo-ubuntu2004-11-4-local/7fa2af80.pub
 sudo apt update
 sudo apt install -y cuda
 
+#install r
+sudo apt-get install r-base
+sudo apt update
+#Garbage Cleanup
+sudo apt autoremove
 echo "Ubuntu post-installation script completed."
