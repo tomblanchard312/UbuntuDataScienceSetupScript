@@ -11,10 +11,15 @@ sudo apt install -y python3 python3-pip
 sudo snap install code --classic
 
 # Install VS Code extensions
-code --install-extension ms-python.python
+code --install-extension ms-vscode.python
+code --install-extension ms-vscode.jupyter
+code --install-extension ms-vscode.dvc
+code --install-extension ms-vscode.r
+code --install-extension ms-vscode.julia
 code --install-extension mtxr.sqltools
 code --install-extension mtxr.sqltools-driver-pg
 code --install-extension VisualStudioExptTeam.vscodeintellicode
+code --install-extension ms-vscode.posgresql
 code --install-extension jithurjacob.nbpreviewer
 code --install-extension eamodio.gitlens
 
