@@ -1,7 +1,7 @@
 # Define variables
 $VMName = "UbuntuVM"
-$UbuntuISOURL = "https://releases.ubuntu.com/22.04.3/ubuntu-22.04.3-desktop-amd64.iso"
-$ISOPath = "$env:USERPROFILE\Downloads\ubuntu-22.04.3-desktop-amd64.iso"
+$UbuntuISOURL = "https://releases.ubuntu.com/24.04.1/ubuntu-24.04.1-desktop-amd64.iso"
+$ISOPath = "$env:USERPROFILE\Downloads\ubuntu-24.04.1-desktop-amd64.iso"
 $ScriptURL = "https://raw.githubusercontent.com/tomblanchard312/DSWorkloadInstallScripts/main/hyper_v_post_install.sh"
 $ScriptPath = "$env:USERPROFILE\Downloads\hyper_v_post_install.sh"
 

@@ -1,92 +1,232 @@
-# DSWorkloadInstallScripts
-This repository contains scripts to set up a development environment for Ubuntu and Windows Subsystem for Linux (WSL) with various tools commonly used for software development, data science, and machine learning.
+# Ubuntu Data Science Setup Scripts 🚀
 
-## Installation Steps
+**Comprehensive automation scripts for setting up modern data science and machine learning development environments across Ubuntu, WSL, and Hyper-V deployments.**
 
-### Ubuntu
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-22.04%20%7C%2024.04-blue)](https://ubuntu.com/)
+[![WSL](https://img.shields.io/badge/WSL-Supported-green)](https://docs.microsoft.com/en-us/windows/wsl/)
+[![Hyper-V](https://img.shields.io/badge/Hyper--V-Supported-purple)](https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/)
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/tomblanchard312/DSWorkloadInstallScripts.git
-	 cd DSWorkloadInstallScripts
-   ```
-2. Make the script executable
-   ```bash
-   chmod +x ubuntu_post_install.sh
-   ```
-  	2. a) remove dos characters from file, if necessary.
-		``` bash
-		 sed -i -e 's/\r$//' ubuntu_post_install.sh
-		 sed -i -e 's/^M$//'  ubuntu_post_install.sh
-		```
+## ✨ What's New in 2025
 
-3. Run the script to set up the development environment:
-    ```bash
-    ./ubuntu_post_install.sh
-    ```
-### Windows Subsystem for Linux (WSL)
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/tomblanchard312/DSWorkloadInstallScripts.git
-	 cd repository
-   ```
-2. Make the script executable
-    ```bash
-    chmod +x wsl_post_install.sh
-    ```
-  	2. a) remove dos characters from file, if necessary.
-		``` bash
-		 sed -i -e 's/\r$//' ubuntu_post_install.sh
-		 sed -i -e 's/^M$//'  ubuntu_post_install.sh
-		```
-4. Run the script to set up the development environment
-    ```bash
-    ./wsl_post_install.sh
-    ```
+- **🚀 Latest Tools**: Anaconda 2024.02-1, Python 3.12+, Ubuntu 24.04.1 LTS
+- **🤖 Modern ML Stack**: PyTorch 2.0+, TensorFlow 2.15+, Transformers, FastAI
+- **📊 Advanced Analytics**: Polars, Vaex, Dask, Xarray, Zarr for big data
+- **🔧 DevOps Integration**: Docker, Kubernetes, MicroK8s, Canonical Data Science Stack
+- **📱 Interactive Apps**: Streamlit, Gradio, Panel, Dash for web applications
+- **🎯 MLOps Tools**: MLflow, Weights & Biases, Optuna, Ray[Tune]
+- **💻 Enhanced IDE**: VS Code with 20+ data science extensions
+- **🐳 Containerized ML**: GPU-enabled environments with Canonical Data Science Stack
 
+## 🎯 What You Get
 
-# Ubuntu Development Environment Setup on Hyper-V
+### **Complete Data Science Environment**
+- **Python Ecosystem**: NumPy, Pandas, Matplotlib, Scikit-learn, Plotly, Seaborn
+- **Machine Learning**: XGBoost, LightGBM, CatBoost, Transformers, PyTorch, TensorFlow
+- **Big Data Tools**: Polars, Vaex, Dask, Xarray, Zarr for scalable computing
+- **NLP & Vision**: SpaCy, Gensim, OpenCV, Pillow, Sentence-Transformers
+- **Interactive Apps**: Streamlit, Gradio, Panel, Dash for rapid prototyping
+- **Statistics**: R, RStudio, Statsmodels, Pingouin for advanced analytics
 
-This repository contains scripts to set up a development environment for Ubuntu running on Hyper-V, including both CUDA and non-CUDA setups.
+### **Enterprise-Grade Infrastructure**
+- **Containerization**: Docker, Docker Compose for reproducible environments
+- **Orchestration**: Kubernetes, Helm, Kubectl for scalable deployments
+- **GPU Acceleration**: CUDA Toolkit, Canonical Data Science Stack with MicroK8s
+- **MLOps**: MLflow, Weights & Biases for experiment tracking
+- **Code Quality**: Black, isort, Flake8, Pylint for professional development
 
-## Prerequisites
+## 🚀 Quick Start
 
-Before running the scripts, ensure that you have the following prerequisites:
+### **Option 1: Native Ubuntu (Recommended)**
+```bash
+# Clone and setup
+git clone https://github.com/tomblanchard312/DSWorkloadInstallScripts.git
+cd DSWorkloadInstallScripts
 
-- Hyper-V installed and enabled on your Windows machine.
-- PowerShell with administrative privileges.
-- Internet connection to download Ubuntu ISO and necessary packages.
+# Make executable and run
+chmod +x ubuntu_post_install.sh
+./ubuntu_post_install.sh
+```
 
-## Installation Steps
+### **Option 2: Windows Subsystem for Linux (WSL)**
+```bash
+# Clone and setup
+git clone https://github.com/tomblanchard312/DSWorkloadInstallScripts.git
+cd DSWorkloadInstallScripts
 
-1. **Download Ubuntu ISO**:
-   - Download the Ubuntu ISO file from the official Ubuntu website: [Download Ubuntu Desktop](https://ubuntu.com/download/desktop/thank-you?version=22.04.3&architecture=amd64).
+# Make executable and run
+chmod +x wsl_post_install.sh
+./wsl_post_install.sh
+```
 
-2. **Set Execution Policy**:
-   - Open PowerShell with administrative privileges.
-   - Run the following command to bypass execution policy:
-     ```powershell
-     Set-ExecutionPolicy Bypass -Scope Process -Force
-     ```
+### **Option 3: Hyper-V Virtual Machine**
+```powershell
+# Run PowerShell script (requires admin privileges)
+Set-ExecutionPolicy Bypass -Scope Process -Force
+.\ubuntu-hyper-v-setup.ps1
+```
 
-3. **Run the Installation Script**:
-   - Run the PowerShell script provided in this repository to set up Ubuntu on Hyper-V and execute the post-installation tasks.
+## 🛠️ Prerequisites
 
-4. **Follow Script Instructions**:
-   - Follow the instructions in the PowerShell script prompts to complete the installation process.
-   - Once the installation is complete, the Ubuntu VM will be set up with the development environment configured.
+### **System Requirements**
+- **Minimum**: 4GB RAM, 20GB storage, Ubuntu 24.04.1 LTS or Windows 10/11
+- **Recommended**: 16GB+ RAM, 50GB+ SSD, NVIDIA GPU (optional)
+- **Network**: Internet connection for package downloads
 
-## Post-Installation Scripts
+### **Windows Requirements (WSL/Hyper-V)**
+- Windows 10/11 with WSL2 or Hyper-V enabled
+- PowerShell with administrative privileges
+- Virtualization enabled in BIOS
 
-- **Ubuntu Post-Installation Script (No CUDA)**: For Ubuntu on Hyper-V without CUDA support.
-  - Script Name: `hyper_v_post_install.sh`
-  - GitHub URL: [https://github.com/tomblanchard312/DSWorkloadInstallScripts/blob/main/hyper_v_post_install.sh](https://github.com/tomblanchard312/DSWorkloadInstallScripts/blob/main/hyper_v_post_install.sh)
-## Additional Notes
+## 🔧 What Gets Installed
 
-- Ensure that the Ubuntu ISO and post-installation scripts are accessible from your Windows machine.
-- Adjust paths and URLs in the scripts as necessary based on your environment.
+### **Core Development Tools**
+- **Python 3.12+** with pip, venv, and build tools
+- **Anaconda 2024.02-1** for package management
+- **Git** for version control
+- **Node.js & npm** for web development
 
+### **Data Science Libraries**
+- **Scientific Computing**: NumPy, Pandas, Matplotlib, Polars, Vaex
+- **Machine Learning**: Scikit-learn, XGBoost, LightGBM, CatBoost
+- **Deep Learning**: PyTorch, TensorFlow, Transformers, FastAI
+- **Big Data**: Dask, Xarray, Zarr for scalable computing
+- **Visualization**: Plotly, Seaborn, Bokeh, Altair, Vega Datasets
+- **NLP & CV**: SpaCy, Gensim, OpenCV, Sentence-Transformers
 
-Feel free to contribute by submitting pull requests or opening issues!
+### **Interactive & Web Applications**
+- **JupyterLab** with enhanced extensions
+- **Streamlit, Gradio, Panel, Dash** for rapid app development
+- **RStudio** for statistical computing
+- **Azure Data Studio** for database management
+
+### **DevOps & Infrastructure**
+- **Docker & Docker Compose** for containerization
+- **Kubernetes tools** (kubectl, Helm) for orchestration
+- **Canonical Data Science Stack** with MicroK8s for GPU-enabled containers
+- **MLOps tools** (MLflow, Weights & Biases) for experiment tracking
+
+### **VS Code Extensions (20+ Extensions)**
+- **Python & Jupyter**: Python, Jupyter, DVC, R, Julia support
+- **Code Quality**: Black, isort, Flake8, Pylint for formatting
+- **DevOps**: Docker, Kubernetes, YAML support
+- **Database**: SQL tools, PostgreSQL integration
+- **Git**: GitLens for enhanced Git workflow
+
+## 🌟 Advanced Features
+
+### **Canonical Data Science Stack**
+Our scripts now include the [Canonical Data Science Stack](https://github.com/canonical/data-science-stack) for enterprise-grade ML environments:
+
+```bash
+# After installation, use these commands:
+data-science-stack start --gpu          # Start GPU-enabled ML environment
+data-science-stack list                 # List available environments
+data-science-stack connect              # Connect to JupyterLab
+data-science-stack stop                 # Stop environments
+```
+
+**Benefits:**
+- **Containerized ML Environments** with GPU support
+- **MicroK8s Integration** for Kubernetes-native workflows
+- **Automatic GPU Detection** and driver handling
+- **MLflow Integration** for experiment tracking
+- **Reproducible Environments** across machines
+
+### **GPU Acceleration**
+- **CUDA Toolkit 11.4+** for NVIDIA GPUs
+- **Automatic GPU detection** and optimization
+- **Containerized GPU access** via Canonical DSS
+- **Multi-GPU support** for advanced workloads
+
+## 📚 Usage Examples
+
+### **Start a New Data Science Project**
+```bash
+# Create virtual environment
+python3 -m venv myproject
+source myproject/bin/activate
+
+# Install additional packages
+pip install streamlit plotly-dash
+
+# Launch interactive app
+streamlit run app.py
+```
+
+### **Use Canonical Data Science Stack**
+```bash
+# Start GPU-enabled environment
+data-science-stack start --gpu
+
+# Access JupyterLab
+data-science-stack connect
+
+# Run ML experiments with GPU acceleration
+python train_model.py
+```
+
+### **Docker Development**
+```bash
+# Build and run container
+docker build -t ml-app .
+docker run -p 8501:8501 ml-app
+
+# Use Docker Compose
+docker-compose up -d
+```
+
+## 🔍 Troubleshooting
+
+### **Common Issues**
+1. **Permission Denied**: Ensure scripts are executable (`chmod +x`)
+2. **DOS Characters**: Remove with `sed -i -e 's/\r$//' script.sh`
+3. **CUDA Issues**: Check NVIDIA drivers and GPU compatibility
+4. **WSL Issues**: Ensure WSL2 is enabled and updated
+
+### **Getting Help**
+- Check the [INDEX.md](INDEX.md) for detailed documentation
+- Review script output for specific error messages
+- Ensure all prerequisites are met
+- Check system compatibility with Ubuntu version
+
+## 🤝 Contributing
+
+We welcome contributions! Please:
+
+1. **Fork** the repository
+2. **Create** a feature branch
+3. **Make** your changes
+4. **Test** thoroughly
+5. **Submit** a pull request
+
+### **Areas for Improvement**
+- Additional VS Code extensions
+- New data science libraries
+- Platform-specific optimizations
+- Documentation enhancements
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **Canonical** for the Data Science Stack
+- **Microsoft** for VS Code and WSL
+- **Open Source Community** for the amazing tools
+- **Contributors** who help improve these scripts
+
+## 📞 Support
+
+- **GitHub Issues**: [Report bugs or request features](https://github.com/tomblanchard312/DSWorkloadInstallScripts/issues)
+- **Discussions**: [Join the community](https://github.com/tomblanchard312/DSWorkloadInstallScripts/discussions)
+- **Documentation**: [Comprehensive INDEX.md](INDEX.md)
+
+---
+
+**⭐ Star this repository if it helped you set up your data science environment!**
+
+**Made with ❤️ for the data science community**
 
     
