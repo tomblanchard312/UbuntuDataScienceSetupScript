@@ -1,0 +1,21 @@
+# Python and notebook workflows
+ms-python.python
+ms-python.vscode-pylance
+ms-toolsai.jupyter
+ms-toolsai.jupyter-keymap
+ms-toolsai.jupyter-renderers
+ms-toolsai.vscode-jupyter-cell-tags
+ms-toolsai.vscode-jupyter-slideshow
+
+# SQL and database tooling
+ms-mssql.mssql
+mtxr.sqltools
+mtxr.sqltools-driver-pg
+
+# Containers and infra
+ms-azuretools.vscode-docker
+ms-kubernetes-tools.vscode-kubernetes-tools
+redhat.vscode-yaml
+
+# General productivity
+eamodio.gitlens

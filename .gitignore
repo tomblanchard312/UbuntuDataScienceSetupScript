@@ -1,0 +1,17 @@
+# Logs
+*.log
+logs/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Editor/OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp

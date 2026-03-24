@@ -1,0 +1,8 @@
+plotly
+altair
+bokeh
+streamlit
+dash
+gradio
+jupyterlab
+ipywidgets

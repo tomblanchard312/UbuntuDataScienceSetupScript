@@ -1,0 +1,6 @@
+# Database and SQL client tools
+postgresql-client
+mysql-client
+mariadb-client
+redis-tools
+unixodbc

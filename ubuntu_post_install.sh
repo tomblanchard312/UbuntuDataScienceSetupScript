@@ -1,138 +1,120 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
 
-# Update package repositories and upgrade existing packages
-sudo apt update
-sudo apt upgrade -y
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Install Python and pip
-sudo apt install -y python3 python3-pip python3-venv python3-dev build-essential
+source "${ROOT_DIR}/lib/logging.sh"
+source "${ROOT_DIR}/lib/common.sh"
+source "${ROOT_DIR}/lib/detect.sh"
+source "${ROOT_DIR}/lib/apt.sh"
+source "${ROOT_DIR}/lib/vscode.sh"
 
-# Install Visual Studio Code
-sudo snap install code --classic
+PROFILES="base,python"
+WITH_MINIFORGE=1
+WITH_ANACONDA=0
+NON_INTERACTIVE=0
+FULL_UPGRADE=0
+INSTALL_VSCODE=1
 
-# Install VS Code extensions
-code --install-extension ms-vscode.python
-code --install-extension ms-vscode.jupyter
-code --install-extension ms-vscode.dvc
-code --install-extension ms-vscode.r
-code --install-extension ms-vscode.julia
-code --install-extension mtxr.sqltools
-code --install-extension mtxr.sqltools-driver-pg
-code --install-extension VisualStudioExptTeam.vscodeintellicode
-code --install-extension ms-vscode.posgresql
-code --install-extension jithurjacob.nbpreviewer
-code --install-extension eamodio.gitlens
-code --install-extension ms-vscode.black-formatter
-code --install-extension ms-vscode.isort
-code --install-extension ms-vscode.flake8
-code --install-extension ms-vscode.pylint
-code --install-extension ms-vscode.docker
-code --install-extension ms-vscode.kubernetes
-code --install-extension redhat.vscode-yaml
-code --install-extension ms-vscode.powershell
+usage() {
+	cat <<'EOF'
+Usage: ./ubuntu_post_install.sh [options]
 
-# Install Azure Data Studio
-wget -q https://go.microsoft.com/fwlink/?linkid=2160375 -O azuredatastudio-linux.deb
-sudo apt install -y ./azuredatastudio-linux.deb
-rm azuredatastudio-linux.deb
+Options:
+	--profile <csv>        Comma-separated profiles (default: base,python)
+	--with-miniforge       Install Miniforge (default behavior)
+	--with-anaconda        Install Anaconda (disables Miniforge)
+	--non-interactive      Run without prompts
+	--full-upgrade         Run apt full-upgrade before profiles
+	--help                 Show this help
+EOF
+}
 
-# Install Anaconda (Latest version)
-sudo apt-get install -y libgl1-mesa-glx libegl1-mesa libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
-wget -P /tmp https://repo.anaconda.com/archive/Anaconda3-2024.02-1-Linux-x86_64.sh -O anaconda-installer.sh
-bash anaconda-installer.sh -b -p $HOME/anaconda3
-rm anaconda-installer.sh
+while [ "$#" -gt 0 ]; do
+	case "$1" in
+		--profile)
+			[ "$#" -gt 1 ] || die "--profile requires a value"
+			PROFILES="$2"
+			shift 2
+			;;
+		--with-miniforge)
+			WITH_MINIFORGE=1
+			WITH_ANACONDA=0
+			shift
+			;;
+		--with-anaconda)
+			WITH_ANACONDA=1
+			WITH_MINIFORGE=0
+			shift
+			;;
+		--non-interactive)
+			NON_INTERACTIVE=1
+			shift
+			;;
+		--full-upgrade)
+			FULL_UPGRADE=1
+			shift
+			;;
+		--help)
+			usage
+			exit 0
+			;;
+		*)
+			die "Unknown argument: $1"
+			;;
+	esac
+done
 
-# Activate Anaconda
-eval "$($HOME/anaconda3/bin/conda shell.bash hook)"
-conda init bash
-source ~/.bashrc
-#may have to restart and continue from here
+assert_supported_ubuntu_version
+if is_wsl; then
+	log_warn "WSL environment detected. For WSL-specific defaults, prefer ./wsl_post_install.sh."
+fi
 
-# Install Jupyter Notebook
-conda install -y jupyter
+require_sudo
 
-# Install additional Python libraries for data science
-conda install -y numpy pandas matplotlib scikit-learn plotly seaborn bokeh scikit-image nltk
-conda install -y -c conda-forge polars vaex dask xarray zarr
-conda install -y -c conda-forge jupyterlab jupyter-server-proxy
-conda install -y -c conda-forge ipywidgets ipympl
-conda install -y -c conda-forge streamlit gradio panel dash
-conda install -y -c conda-forge altair vega_datasets
-conda install -y -c conda-forge opencv pillow
-conda install -y -c conda-forge networkx graphviz
-conda install -y -c conda-forge statsmodels pingouin
+if [ "${FULL_UPGRADE}" -eq 1 ]; then
+	apt_update_once
+	sudo DEBIAN_FRONTEND=noninteractive apt-get full-upgrade -y
+fi
 
-# Install machine learning tools
-conda install -y -c conda-forge xgboost lightgbm catboost
-conda install -y -c conda-forge transformers torch torchvision torchaudio
-conda install -y -c conda-forge tensorflow tensorflow-gpu
-conda install -y -c conda-forge optuna hyperopt
-conda install -y -c conda-forge mlflow wandb
-conda install -y -c conda-forge scikit-optimize ray[tune]
-conda install -y -c conda-forge fastai
-conda install -y -c conda-forge sentence-transformers
-conda install -y -c conda-forge spacy
-conda install -y -c conda-forge gensim
-conda install -y -c conda-forge wordcloud
+run_profile() {
+	local requested="$1"
+	local profile_name="${requested}"
 
-# Install database clients
-sudo apt install -y mysql-client postgresql-client mongodb-clients sqlite3
+	case "${requested}" in
+		gpu)
+			if is_wsl; then
+				profile_name="gpu-wsl"
+			else
+				profile_name="gpu-native"
+			fi
+			;;
+		wsl)
+			if ! is_wsl; then
+				log_warn "Skipping wsl profile outside WSL."
+				return 0
+			fi
+			;;
+	esac
 
-# Install Git
-sudo apt install -y git
+	local profile_file="${ROOT_DIR}/profiles/${profile_name}.sh"
+	[ -f "${profile_file}" ] || die "Profile '${requested}' not found at ${profile_file}"
 
-# Install Docker
-sudo apt install -y docker.io docker-compose
-sudo usermod -aG docker $USER
-sudo systemctl enable docker
-sudo systemctl start docker
+	# shellcheck disable=SC1090
+	source "${profile_file}"
 
-# Install Kubernetes tools
-sudo apt install -y kubectl helm
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-rm kubectl
+	local fn_name="profile_${profile_name//-/_}"
+	declare -F "${fn_name}" >/dev/null 2>&1 || die "Profile function '${fn_name}' not defined in ${profile_file}"
 
-# Install documentation and notebook tools
-sudo apt install -y python3-sphinx pandoc
-conda install -y nbconvert
+	"${fn_name}"
+}
 
-# Install additional development tools
-sudo apt install -y nodejs npm
-sudo npm install -g @jupyterlab/application
-sudo npm install -g @jupyterlab/notebook
-sudo npm install -g @jupyterlab/terminal
+mapfile -t selected_profiles < <(parse_csv_profiles "${PROFILES}")
+[ "${#selected_profiles[@]}" -gt 0 ] || die "No profiles selected."
 
-# Install Canonical Data Science Stack (Optional - Advanced GPU-enabled containers)
-echo "Installing Canonical Data Science Stack for advanced ML workloads..."
-sudo snap install microk8s --classic
-sudo snap install data-science-stack --classic
-sudo usermod -aG microk8s $USER
-sudo chown -f -R $USER ~/.kube
-microk8s status --wait-ready
-microk8s enable gpu
-microk8s enable registry
-microk8s enable dns
-echo "Data Science Stack installed. Run 'data-science-stack --help' for usage."
+for profile in "${selected_profiles[@]}"; do
+	run_profile "${profile}"
+done
 
-# Install R and RStudio
-sudo apt install -y r-base r-base-dev
-wget -q https://download1.rstudio.org/desktop/bionic/amd64/rstudio-2024.06.0-561-amd64.deb -O rstudio.deb
-sudo apt install -y ./rstudio.deb
-rm rstudio.deb
-
-# Install CUDA Toolkit
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
-sudo mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600
-wget https://developer.download.nvidia.com/compute/cuda/11.4.0/local_installers/cuda-repo-ubuntu2004-11-4-local_11.4.0-470.42.01-1_amd64.deb
-sudo dpkg -i cuda-repo-ubuntu2004-11-4-local_11.4.0-470.42.01-1_amd64.deb
-sudo apt-key add /var/cuda-repo-ubuntu2004-11-4-local/7fa2af80.pub
-sudo apt update
-sudo apt install -y cuda
-
-#install r
-sudo apt-get install r-base
-sudo apt update
-#Garbage Cleanup
-sudo apt autoremove
-echo "Ubuntu post-installation script completed."
+log_info "Completed Ubuntu bootstrap for profiles: ${PROFILES}"
