@@ -11,11 +11,12 @@ source "${ROOT_DIR}/lib/apt.sh"
 source "${ROOT_DIR}/lib/vscode.sh"
 
 PROFILES="base,python,db"
-WITH_MINIFORGE=1
-WITH_ANACONDA=0
+# Defaults consumed by sourced profiles under ./profiles/
+: "${WITH_MINIFORGE:=1}"
+: "${WITH_ANACONDA:=0}"
 NON_INTERACTIVE=0
 FULL_UPGRADE=0
-INSTALL_VSCODE=1
+: "${INSTALL_VSCODE:=1}"
 
 usage() {
 	cat <<'EOF'
@@ -39,12 +40,16 @@ while [ "$#" -gt 0 ]; do
 			shift 2
 			;;
 		--with-miniforge)
+			# shellcheck disable=SC2034
 			WITH_MINIFORGE=1
+			# shellcheck disable=SC2034
 			WITH_ANACONDA=0
 			shift
 			;;
 		--with-anaconda)
+			# shellcheck disable=SC2034
 			WITH_ANACONDA=1
+			# shellcheck disable=SC2034
 			WITH_MINIFORGE=0
 			shift
 			;;
